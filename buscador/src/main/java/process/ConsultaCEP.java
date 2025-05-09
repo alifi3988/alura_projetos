@@ -18,15 +18,13 @@ public class ConsultaCEP {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
                 .build();
-
-        HttpResponse<String> response = null;
         try {
-            response = HttpClient
+            HttpResponse<String> response = HttpClient
                     .newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
+            return new Gson().fromJson(response.body(), Endereco.class);
         } catch (IOException | InterruptedException | IllegalStateException e) {
             throw new RuntimeException("Erro: " + e.getMessage() + " \nNão foi possivel localizar o CEP.");
         }
-        return new Gson().fromJson(response.body(), Endereco.class);
     }
 }
