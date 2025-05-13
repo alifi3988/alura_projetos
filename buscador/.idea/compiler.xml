@@ -9,5 +9,8 @@
         <module name="buscador" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="buscador" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>
