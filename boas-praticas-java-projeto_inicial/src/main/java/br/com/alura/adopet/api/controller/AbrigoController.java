@@ -1,5 +1,6 @@
 package br.com.alura.adopet.api.controller;
 
+import br.com.alura.adopet.api.dto.DadosDetalhesPet;
 import br.com.alura.adopet.api.model.Abrigo;
 import br.com.alura.adopet.api.model.Pet;
 import br.com.alura.adopet.api.repository.AbrigoRepository;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,17 +42,33 @@ public class AbrigoController {
     }
 
     @GetMapping("/{idOuNome}/pets")
-    public ResponseEntity<List<Pet>> listarPets(@PathVariable String idOuNome) {
+    public ResponseEntity<List<DadosDetalhesPet>> listarPets(@PathVariable String idOuNome) {
         try {
             Long id = Long.parseLong(idOuNome);
             List<Pet> pets = repository.getReferenceById(id).getPets();
-            return ResponseEntity.ok(pets);
+            List<DadosDetalhesPet> dadosPets = new ArrayList<>();
+
+            for (Pet pet : pets) {
+                if (!pet.getAdotado()) {
+                    dadosPets.add(new DadosDetalhesPet(pet));
+                }
+            }
+            return ResponseEntity.ok(dadosPets);
+
         } catch (EntityNotFoundException enfe) {
             return ResponseEntity.notFound().build();
         } catch (NumberFormatException e) {
             try {
                 List<Pet> pets = repository.findByNome(idOuNome).getPets();
-                return ResponseEntity.ok(pets);
+                List<DadosDetalhesPet> dadosPets = new ArrayList<>();
+
+                for (Pet pet : pets) {
+                    if (!pet.getAdotado()) {
+                        dadosPets.add(new DadosDetalhesPet(pet));
+                    }
+                }
+                return ResponseEntity.ok(dadosPets);
+
             } catch (EntityNotFoundException enfe) {
                 return ResponseEntity.notFound().build();
             }
