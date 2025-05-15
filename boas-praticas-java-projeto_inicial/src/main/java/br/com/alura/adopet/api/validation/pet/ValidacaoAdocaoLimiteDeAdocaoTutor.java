@@ -23,6 +23,10 @@ public class ValidacaoAdocaoLimiteDeAdocaoTutor implements ValidacaoAdocao {
         var adocoes = adocaoRepository.findAll();
         var tutor = tutorRepository.findById(dto.idTutor()).get();
 
+        //tutor de adocao == tutor
+        //status de adocao == APROVADO
+        //a quantidade de docoes desse tutor tem que ser <= 5
+
         for (Adocao a : adocoes) {
             int contador = 0;
             if (a.getTutor() == tutor && a.getStatus() == StatusAdocao.APROVADO) {
