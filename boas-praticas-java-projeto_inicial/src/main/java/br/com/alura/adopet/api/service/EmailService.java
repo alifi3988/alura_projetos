@@ -6,15 +6,14 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender emailSender;
+  @Autowired private JavaMailSender emailSender;
 
-    public void sendEmail(String to, String subject, String message) {
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setFrom("adopet@email.com.br");
-        email.setTo(to);
-        email.setSubject(subject);
-        email.setText(message);
-        emailSender.send(email);
-    }
+  public void sendEmail(String to, String subject, String message) {
+    SimpleMailMessage email = new SimpleMailMessage();
+    email.setFrom("adopet@email.com.br");
+    email.setTo(to);
+    email.setSubject(subject);
+    email.setText(message);
+    emailSender.send(email);
+  }
 }

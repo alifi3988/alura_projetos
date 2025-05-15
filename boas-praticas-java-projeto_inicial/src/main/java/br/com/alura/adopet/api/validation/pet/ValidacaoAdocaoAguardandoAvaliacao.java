@@ -10,12 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidacaoAdocaoAguardandoAvaliacao implements ValidacaoAdocao {
 
-    @Autowired
-    private AdocaoRepository adocaoRepository;
+  @Autowired private AdocaoRepository adocaoRepository;
 
-    public void validar(SolicitacaoAdocaoDto dto) {
-        if (!adocaoRepository.existsByPetIdAndStatus(dto.idPet(), StatusAdocao.AGUARDANDO_AVALIACAO)) {
-            throw new ValidacaoException("Pet já está aguardando avaliação para ser adotado!\"");
-        }
+  public void validar(SolicitacaoAdocaoDto dto) {
+    if (!adocaoRepository.existsByPetIdAndStatus(dto.idPet(), StatusAdocao.AGUARDANDO_AVALIACAO)) {
+      throw new ValidacaoException("Pet já está aguardando avaliação para ser adotado!\"");
     }
+  }
 }

@@ -9,14 +9,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidacaoAdocaoPet implements ValidacaoAdocao {
 
-    @Autowired
-    private PetRepository petRepository;
+  @Autowired private PetRepository petRepository;
 
-    public void validar(SolicitacaoAdocaoDto dto) {
-        var pet = petRepository.getReferenceById(dto.idPet());
+  public void validar(SolicitacaoAdocaoDto dto) {
+    var pet = petRepository.getReferenceById(dto.idPet());
 
-        if (pet.getAdotado()) {
-            throw new ValidacaoException("Pet já foi adotado!");
-        }
+    if (pet.getAdotado()) {
+      throw new ValidacaoException("Pet já foi adotado!");
     }
+  }
 }

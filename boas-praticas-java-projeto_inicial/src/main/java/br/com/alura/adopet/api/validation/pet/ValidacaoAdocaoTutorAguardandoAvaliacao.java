@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidacaoAdocaoTutorAguardandoAvaliacao implements ValidacaoAdocao {
 
-    @Autowired
-    private AdocaoRepository adocaoRepository;
+  @Autowired private AdocaoRepository adocaoRepository;
 
-    public void validar(SolicitacaoAdocaoDto dto) {
-        if (adocaoRepository.existsByTutorIdAndStatus(dto.idTutor(), StatusAdocao.AGUARDANDO_AVALIACAO)) {
-            throw new ValidacaoException("Tutor já possui outra adoção aguardando avaliação!");
-        }
+  public void validar(SolicitacaoAdocaoDto dto) {
+    if (adocaoRepository.existsByTutorIdAndStatus(
+        dto.idTutor(), StatusAdocao.AGUARDANDO_AVALIACAO)) {
+      throw new ValidacaoException("Tutor já possui outra adoção aguardando avaliação!");
     }
+  }
 }

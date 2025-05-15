@@ -12,29 +12,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidacaoAdocaoLimiteDeAdocaoTutor implements ValidacaoAdocao {
 
-    @Autowired
-    private TutorRepository tutorRepository;
+  @Autowired private TutorRepository tutorRepository;
 
-    @Autowired
-    private AdocaoRepository adocaoRepository;
+  @Autowired private AdocaoRepository adocaoRepository;
 
-    public void validar(SolicitacaoAdocaoDto dto) {
+  public void validar(SolicitacaoAdocaoDto dto) {
 
-        var adocoes = adocaoRepository.findAll();
-        var tutor = tutorRepository.findById(dto.idTutor()).get();
+    var adocoes = adocaoRepository.findAll();
+    var tutor = tutorRepository.findById(dto.idTutor()).get();
 
-        //tutor de adocao == tutor
-        //status de adocao == APROVADO
-        //a quantidade de docoes desse tutor tem que ser <= 5
+    // tutor de adocao == tutor
+    // status de adocao == APROVADO
+    // a quantidade de docoes desse tutor tem que ser <= 5
 
-        for (Adocao a : adocoes) {
-            int contador = 0;
-            if (a.getTutor() == tutor && a.getStatus() == StatusAdocao.APROVADO) {
-                contador = contador + 1;
-            }
-            if (contador == 5) {
-                throw new ValidacaoException("Tutor chegou ao limite máximo de 5 adoções!");
-            }
-        }
+    for (Adocao a : adocoes) {
+      int contador = 0;
+      if (a.getTutor() == tutor && a.getStatus() == StatusAdocao.APROVADO) {
+        contador = contador + 1;
+      }
+      if (contador == 5) {
+        throw new ValidacaoException("Tutor chegou ao limite máximo de 5 adoções!");
+      }
     }
+  }
 }
