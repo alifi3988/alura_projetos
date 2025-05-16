@@ -1,6 +1,6 @@
 package br.com.alura.adopet.api.service;
 
-import br.com.alura.adopet.api.dto.DadosDetalhesPet;
+import br.com.alura.adopet.api.dto.pet.DadosDetalhesPet;
 import br.com.alura.adopet.api.repository.PetRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

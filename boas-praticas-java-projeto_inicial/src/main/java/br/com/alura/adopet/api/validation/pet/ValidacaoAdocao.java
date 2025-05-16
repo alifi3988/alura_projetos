@@ -1,6 +1,6 @@
 package br.com.alura.adopet.api.validation.pet;
 
-import br.com.alura.adopet.api.dto.SolicitacaoAdocaoDto;
+import br.com.alura.adopet.api.dto.adocao.SolicitacaoAdocaoDto;
 
 public interface ValidacaoAdocao {
 
