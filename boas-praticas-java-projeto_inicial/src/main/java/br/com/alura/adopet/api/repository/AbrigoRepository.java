@@ -11,4 +11,6 @@ public interface AbrigoRepository extends JpaRepository<Abrigo, Long> {
   boolean existsByEmail(String email);
 
   Abrigo findByNome(String nome);
+
+  boolean existByNomeOrTelefoneOrEmail(String nome, String telefone, String email);
 }
