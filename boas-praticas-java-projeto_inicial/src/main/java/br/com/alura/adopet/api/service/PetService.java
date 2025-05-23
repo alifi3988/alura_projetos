@@ -12,6 +12,6 @@ public class PetService {
   @Autowired private PetRepository repository;
 
   public List<PetDto> listarPetsDisponiveis() {
-    return repository.findByAdotadoFalse(false).stream().map(PetDto::new).toList();
+    return repository.findByAdotado(false).stream().map(PetDto::new).toList();
   }
 }
