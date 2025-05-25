@@ -35,7 +35,7 @@ public class AbrigoService {
         abrigoRepository.save(new Abrigo(dto));
     }
 
-    public List<PetDto> listarPetsPorIdOrNome(String idOuNome) {
+    public List<PetDto> listarPetsPorIdOrNomeDoAbrigo(String idOuNome) {
         Abrigo abrigo = carregarAbrigo(idOuNome);
         return petRepository.findByAbrigo(abrigo).stream().map(PetDto::new).toList();
     }

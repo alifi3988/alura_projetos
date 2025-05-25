@@ -33,7 +33,7 @@ public class Abrigo {
   public Abrigo() {}
 
   public void adicionarPetEmAbrigo(Pet pet) {
-    this.pets.add(pet);
+    getPets().add(pet);
   }
 
   @Override
