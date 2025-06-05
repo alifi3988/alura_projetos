@@ -12,7 +12,7 @@ import br.com.alura.adopet.api.model.Tutor;
 import br.com.alura.adopet.api.repository.AdocaoRepository;
 import br.com.alura.adopet.api.repository.PetRepository;
 import br.com.alura.adopet.api.repository.TutorRepository;
-import br.com.alura.adopet.api.validation.pet.ValidacaoAdocao;
+import br.com.alura.adopet.api.validation.ValidacaoAdocao;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
