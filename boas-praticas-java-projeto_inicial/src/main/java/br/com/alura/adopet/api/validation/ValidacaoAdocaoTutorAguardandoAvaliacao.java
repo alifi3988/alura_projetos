@@ -1,4 +1,4 @@
-package br.com.alura.adopet.api.validation.pet;
+package br.com.alura.adopet.api.validation;
 
 import br.com.alura.adopet.api.dto.adocao.SolicitacaoAdocaoDto;
 import br.com.alura.adopet.api.exception.ValidacaoException;
