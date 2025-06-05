@@ -13,7 +13,7 @@ public class TutorService {
   @Autowired private TutorRepository repository;
 
   public void cadastrarTutor(DadosTutorDto tutor) {
-    if (!repository.existsByTelefoneOrEmail(tutor.telefone(), tutor.email())) {
+    if (repository.existsByTelefoneOrEmail(tutor.telefone(), tutor.email())) {
       throw new ValidacaoException("Dados já cadastrados para outro tutor!");
     }
     repository.save(new Tutor(tutor));
