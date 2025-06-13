@@ -37,7 +37,7 @@ public class AbrigoController {
   @GetMapping("/{idOuNome}/pets")
   public ResponseEntity<List<PetDto>> listarPets(@PathVariable String idOuNome) {
     try {
-      return ResponseEntity.ok(abrigoService.listarPetsPorIdOrNome(idOuNome));
+      return ResponseEntity.ok(abrigoService.listarPetsPorIdOrNomeDoAbrigo(idOuNome));
     } catch (Exception e) {
       return ResponseEntity.notFound().build();
     }
