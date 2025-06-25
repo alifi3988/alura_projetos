@@ -21,8 +21,6 @@ class PetServiceTest {
 
   @Mock private List<Pet> petListMock;
 
-  @Mock private PetDto petDtoMock;
-
   @Test
   public void deve_listar_pets_disponiveis() {
     List<PetDto> retorno = petServiceMock.listarPetsDisponiveis();
