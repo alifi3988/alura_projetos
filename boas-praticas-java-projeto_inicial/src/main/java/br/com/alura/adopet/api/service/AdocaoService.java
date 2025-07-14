@@ -58,7 +58,7 @@ public class AdocaoService {
 
   public void aprovar(AprovacaoAdocaoDto dto) {
 
-    Adocao adocao = adocaoRepository.getReferenceById(dto.idAdocao());
+    Adocao adocao = getAdocaoRepository(dto.idAdocao());
 
     adocao.setStatus(StatusAdocao.APROVADO);
 
@@ -78,7 +78,7 @@ public class AdocaoService {
 
   public void reprovar(ReprovacaoAdocaoDto dto) {
 
-    Adocao adocao = adocaoRepository.getReferenceById(dto.idAdocao());
+    Adocao adocao = getAdocaoRepository(dto.idAdocao());
 
     adocao.setStatus(StatusAdocao.REPROVADO);
     adocao.setMotivo(dto.motivo());
@@ -96,5 +96,9 @@ public class AdocaoService {
             + adocao.getPet().getAbrigo().getNome()
             + " com a seguinte justificativa: "
             + adocao.getJustificativaStatus());
+  }
+
+  private Adocao getAdocaoRepository(Long idAdocao) {
+    return adocaoRepository.getReferenceById(idAdocao);
   }
 }

@@ -14,11 +14,9 @@ import br.com.alura.adopet.api.repository.AdocaoRepository;
 import br.com.alura.adopet.api.repository.PetRepository;
 import br.com.alura.adopet.api.repository.TutorRepository;
 import br.com.alura.adopet.api.validation.ValidacaoAdocao;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,8 +30,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class AdocaoServiceTest {
 
-  @InjectMocks
-  private AdocaoService service;
+  @InjectMocks private AdocaoService service;
 
   @Mock private SolicitacaoAdocaoDto SolicitacaoAdocaoDto;
 
@@ -55,21 +52,17 @@ class AdocaoServiceTest {
 
   @Mock private AdocaoRepository adocaoRepository;
 
-  @Spy
-  private List<ValidacaoAdocao> validacao = new ArrayList<>();
+  @Spy private List<ValidacaoAdocao> validacao = new ArrayList<>();
 
-  @Mock
-  private ValidacaoAdocao validacaoPrimeiro;
+  @Mock private ValidacaoAdocao validacaoPrimeiro;
 
-  @Mock
-  private ValidacaoAdocao validacaoSegunda;
+  @Mock private ValidacaoAdocao validacaoSegunda;
 
   @Mock private EmailService emailService;
 
-  @Captor
-  private ArgumentCaptor<Adocao> adocaoCaptor;
+  @Captor private ArgumentCaptor<Adocao> adocaoCaptor;
 
-  private ArgumentCaptor<AprovacaoAdocaoDto> aprovacaoAdocaoCaptor;
+  @Captor private ArgumentCaptor<Long> longCaptor;
 
   @Test
   public void deve_realizar_solicitacao_de_adocao_com_sucesso() {
@@ -106,27 +99,34 @@ class AdocaoServiceTest {
     verify(validacaoSegunda).validar(SolicitacaoAdocaoDto);
   }
 
-   @Test
-   public void deve_aprovar_solicitacao_de_adocao_com_sucesso() {
-     this.aprovacaoAdocaoDto = new AprovacaoAdocaoDto(0l);
+  @Test
+  public void deve_aprovar_solicitacao_de_adocao_com_sucesso() {
+    this.aprovacaoAdocaoDto = new AprovacaoAdocaoDto(0L);
 
-     when(adocaoRepository.getReferenceById(aprovacaoAdocaoDto.idAdocao())).thenReturn(adocao);
-     when(adocao.getTutor()).thenReturn(tutor);
-     when(adocao.getPet()).thenReturn(pet);
-     when(adocao.getData()).thenReturn(LocalDateTime.now());
-     when(pet.getAbrigo()).thenReturn(abrigo);
+    when(adocaoRepository.getReferenceById(aprovacaoAdocaoDto.idAdocao())).thenReturn(adocao);
+    when(adocao.getTutor()).thenReturn(tutor);
+    when(adocao.getPet()).thenReturn(pet);
+    when(adocao.getData()).thenReturn(LocalDateTime.now());
+    when(pet.getAbrigo()).thenReturn(abrigo);
 
-     Assertions.assertDoesNotThrow(() -> service.aprovar(aprovacaoAdocaoDto));
-   }
+    Assertions.assertDoesNotThrow(() -> service.aprovar(aprovacaoAdocaoDto));
+    verify(adocaoRepository).getReferenceById(longCaptor.capture());
+    Assertions.assertEquals(aprovacaoAdocaoDto.idAdocao(), longCaptor.getValue());
+  }
 
-   @Test
-   public void deve_reprovar_solicitacao_de_adocao() {
-     Long idAdocao = 0l;
-     when(adocaoRepository.getReferenceById(idAdocao)).thenReturn(adocao);
-     when(adocao.getTutor()).thenReturn(tutor);
-     when(adocao.getPet()).thenReturn(pet);
-     when(adocao.getData()).thenReturn(LocalDateTime.now());
-     when(pet.getAbrigo()).thenReturn(abrigo);
-     Assertions.assertDoesNotThrow(() -> service.reprovar(reprovacaoAdocaoDto));
-   }
+  @Test
+  public void deve_reprovar_solicitacao_de_adocao() {
+    this.aprovacaoAdocaoDto = new AprovacaoAdocaoDto(0L);
+
+    when(adocaoRepository.getReferenceById(aprovacaoAdocaoDto.idAdocao())).thenReturn(adocao);
+    when(adocao.getTutor()).thenReturn(tutor);
+    when(adocao.getPet()).thenReturn(pet);
+    when(adocao.getData()).thenReturn(LocalDateTime.now());
+    when(pet.getAbrigo()).thenReturn(abrigo);
+
+    Assertions.assertDoesNotThrow(() -> service.reprovar(reprovacaoAdocaoDto));
+
+    verify(adocaoRepository).getReferenceById(longCaptor.capture());
+    Assertions.assertEquals(aprovacaoAdocaoDto.idAdocao(), longCaptor.getValue());
+  }
 }
