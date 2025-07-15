@@ -62,7 +62,8 @@ public class AbrigoServiceTest {
   public void deve_cadastrar_abrigo() {
     abrigoDto = new CadastroAbrigoDto("Teste Nome", "19999999999", "teste@teste.com");
 
-    when(abrigoRepositoryMock.existsByNomeOrTelefoneOrEmail(abrigoDto.nome(), abrigoDto.telefone(), abrigoDto.email()))
+    when(abrigoRepositoryMock.existsByNomeOrTelefoneOrEmail(
+            abrigoDto.nome(), abrigoDto.telefone(), abrigoDto.email()))
         .thenReturn(false);
 
     Assertions.assertDoesNotThrow(() -> abrigoService.cadastrarAbrigo(abrigoDto));
@@ -74,8 +75,7 @@ public class AbrigoServiceTest {
 
   @Test
   public void deve_acionar_uma_exception_ao_tentar_cadastrar_abrigo() {
-    when(abrigoRepositoryMock.existsByNomeOrTelefoneOrEmail(any(), any(), any()))
-        .thenReturn(true);
+    when(abrigoRepositoryMock.existsByNomeOrTelefoneOrEmail(any(), any(), any())).thenReturn(true);
 
     ValidacaoException exceptionLancada =
         Assertions.assertThrows(
@@ -97,8 +97,7 @@ public class AbrigoServiceTest {
   @Test
   public void deve_listar_pets_por_id() {
     String idAbrigo = "123456";
-    when(abrigoRepositoryMock.findById(Long.parseLong(idAbrigo)))
-        .thenReturn(abrigoOptionalMock);
+    when(abrigoRepositoryMock.findById(Long.parseLong(idAbrigo))).thenReturn(abrigoOptionalMock);
     when(petRepositoryMock.findByAbrigo(abrigoOptionalMock.get())).thenReturn(listaPetMock);
     List<PetDto> retorno = abrigoService.listarPetsPorIdOrNomeDoAbrigo(idAbrigo);
 
@@ -120,8 +119,7 @@ public class AbrigoServiceTest {
   @Test
   public void deve_acionar_exception_pets_por_id() {
     String idAbrigo = "123456";
-    when(abrigoRepositoryMock.findById(Long.parseLong(idAbrigo)))
-        .thenReturn(Optional.empty());
+    when(abrigoRepositoryMock.findById(Long.parseLong(idAbrigo))).thenReturn(Optional.empty());
 
     ValidacaoException execaoLancada =
         Assertions.assertThrows(
@@ -146,8 +144,7 @@ public class AbrigoServiceTest {
   public void deve_lancar_excecao_quando_abrigo_nao_encontrado() {
     String nomeAbrigoInexistente = "naoExiste";
 
-    when(abrigoRepositoryMock.findByNome(nomeAbrigoInexistente))
-        .thenReturn(Optional.empty());
+    when(abrigoRepositoryMock.findByNome(nomeAbrigoInexistente)).thenReturn(Optional.empty());
 
     Assertions.assertThrows(
         ValidacaoException.class, () -> abrigoService.cadastrarPet(nomeAbrigoInexistente, petMock));
