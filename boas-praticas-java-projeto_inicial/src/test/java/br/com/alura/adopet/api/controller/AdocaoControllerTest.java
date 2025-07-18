@@ -22,7 +22,7 @@ class AdocaoControllerTest {
   @MockBean private AdocaoService service;
 
   @Test
-  void deve_solicitar_adocao_com_sucesso_200() throws Exception {
+  public void deve_solicitar_adocao_com_sucesso_200() throws Exception {
     // ARRANGE
     String json =
         """
@@ -44,7 +44,7 @@ class AdocaoControllerTest {
   }
 
   @Test
-  void deve_solicitar_adocao_com_erro_400() throws Exception {
+  public void deve_solicitar_adocao_com_erro_400() throws Exception {
     // ARRANGE
     String json = "{}";
 
