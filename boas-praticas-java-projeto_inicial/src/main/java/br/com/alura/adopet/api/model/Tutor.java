@@ -22,6 +22,8 @@ public class Tutor {
   @OneToMany(mappedBy = "tutor")
   private List<Adocao> adocoes;
 
+  public Tutor() {}
+
   public Tutor(DadosTutorDto tutorDto) {
     this.nome = tutorDto.nome();
     this.telefone = tutorDto.telefone();
