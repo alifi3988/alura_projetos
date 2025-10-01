@@ -5,11 +5,14 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"log"
 
 	_ "github.com/lib/pq"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type Produto struct {
+    Id         int
 	Nome       string
 	Descricao  string
 	Preco      float64
@@ -17,48 +20,75 @@ type Produto struct {
 }
 
 func conectaComBancoDeDados() *sql.DB {
-	conexao := "user=postgres dbname=postgres password=123@123 host=localhost sslmode=disable"
+	conexao := "****:****@tcp(127.0.0.1:3306)/loja_virtual?parseTime=true"
 
-	db, err := sql.Open("postgres", conexao)
-
+	db, err := sql.Open("mysql", conexao)
 	if err != nil {
-		fmt.Println("Erro na conexão com o bando de dados!")
-		panic(err.Error())
+		log.Fatal("❌ Erro ao abrir conexão:", err)
 	}
 
+	if err := db.Ping(); err != nil {
+		log.Fatal("❌ Erro ao conectar no banco:", err)
+	}
+
+	fmt.Println("✅ Conectado ao banco com sucesso!")
 	return db
 }
 
 var temp = template.Must(template.ParseGlob("../templates/*.html"))
 
 func main() {
-
-	fmt.Println("INICIO DA CHAMADA DO PROGRAMA.")
+	fmt.Println("✅ Iniciando o template do programa...")
 	http.HandleFunc("/", index)
+	fmt.Println("✅ Iniciando programa em: https://localhost:8000")
 	err := http.ListenAndServe(":8000", nil)
 
-	db := conectaComBancoDeDados()
-	defer db.Close()
-
 	if err != nil {
-		fmt.Println("Erro ao iniciar servidor:", err)
+		fmt.Println("❌ Erro ao iniciar servidor:", err)
 	}
 
-	fmt.Println("FIM DA CHAMADA DO PROGRAMA.")
+	fmt.Println("✅ Finalizando o programa...")
 
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
 
-	produtos := []Produto{
-		{Nome: "Camiseta", Descricao: "Camisa de manga cumprida", Preco: 39.90, Quantidade: 10},
-		{"Tenis", "Confortavel", 99.99, 20},
-		{"Fone", "Cor preta", 150.99, 5},
-		{"Mouse", "Cor preta", 75.99, 15},
-	}
+   fmt.Println("✅ Iniciando o servidor de banco de dados...")
+   db := conectaComBancoDeDados()
 
-	err := temp.ExecuteTemplate(w, "Index", produtos)
+   produtosReturn, err := db.Query("SELECT * FROM produtos")
+
+   if err != nil {
+        panic(err.Error())
+   }
+
+   p := Produto{}
+
+   produtos := []Produto{}
+
+   for produtosReturn.Next() {
+        var id, quantidade int
+        var nome, descricao string
+        var preco float64
+
+        err = produtosReturn.Scan(&id, &nome, &descricao, &preco, &quantidade)
+        if err != nil {
+            panic(err.Error())
+        }
+
+        p.Nome = nome
+        p.Descricao = descricao
+        p.Preco = preco
+        p.Quantidade = quantidade
+
+        produtos = append(produtos, p)
+   }
+
+	err = temp.ExecuteTemplate(w, "Index", produtos)
+	defer db.Close()
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+
 }
