@@ -23,6 +23,7 @@
                         <td>{{.Descricao}}</td>
                         <td>{{.Preco}}</td>
                         <td>{{.Quantidade}}</td>
+                        <td><a href="edit?id={{.Id}}" class="btn btn-info">Editar</button></td>
                         <td><button onclick="onDelete('{{.Id}}')" class="btn btn-danger">Deletar</button></td>
                     </tr>
                     {{end}}
@@ -41,6 +42,10 @@
         if (resposta) {
             window.location = "/delete?id=" + id
         }
+    }
+
+    function onEdit(id) {
+
     }
 </script>
 

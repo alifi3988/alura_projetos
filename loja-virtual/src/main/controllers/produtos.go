@@ -70,3 +70,20 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
+
+func Edit(w http.ResponseWriter, r *http.Request) {
+
+	produtoId := r.URL.Query().Get("id")
+	err := model.DeleteProduto(produtoId)
+
+
+	if err != nil {
+		log.Fatal("Erro ao deletar produto. Error: ", err)
+	}
+
+
+	temp.ExecuteTemplate(w, "Edit", nil)
+
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
