@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -52,10 +53,10 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Panic("Erro na criação do produto. Valide as informações. /nError: ", err)
 		}
-		
+
 		http.Redirect(w, r, "/", http.StatusSeeOther)
-	}	
-	http.Redirect(w,r, "/", http.StatusCreated)
+	}
+	http.Redirect(w, r, "/", http.StatusCreated)
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
@@ -67,23 +68,53 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal("Erro ao deletar produto. Error: ", err)
 	}
-	
+
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func Edit(w http.ResponseWriter, r *http.Request) {
 
 	produtoId := r.URL.Query().Get("id")
-	err := model.DeleteProduto(produtoId)
 
-
+	produto, err := model.BuscarProdutoPorId(produtoId)
 	if err != nil {
 		log.Fatal("Erro ao deletar produto. Error: ", err)
 	}
 
+	temp.ExecuteTemplate(w, "Edit", produto)
+}
 
-	temp.ExecuteTemplate(w, "Edit", nil)
+func Update(w http.ResponseWriter, r *http.Request) {
 
+	fmt.Printf("✅ Iniciando atualização do Produto...")
 
+	if r.Method == "POST" {
+		id := r.FormValue("id")
+		nome := r.FormValue("nome")
+		descricao := r.FormValue("descricao")
+		preco := r.FormValue("preco")
+		quantidade := r.FormValue("quantidade")
+
+		idConvertido, err := strconv.Atoi(id)
+		if err != nil {
+			fmt.Println("Erro: ", err)
+		}
+
+		quantidadeConvertido, err := strconv.Atoi(quantidade)
+		if err != nil {
+			fmt.Println("Erro: ", err)
+		}
+
+		precoConvertido, err := strconv.ParseFloat(preco, 64)
+		if err != nil {
+			fmt.Println("Erro: ", err)
+		}
+
+		/// Realizando a atualização de informação
+		err = model.AtualizarProduto(idConvertido, quantidadeConvertido, nome, descricao, precoConvertido)
+		if err != nil {
+			log.Panic("Erro na atualização do produto. Valide as informações. /nError: ", err)
+		}
+	}
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

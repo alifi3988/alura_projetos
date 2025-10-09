@@ -36,12 +36,12 @@ func BuscaTodosOsProdutos() []Produto {
 		if err != nil {
 			panic(err.Error())
 		}
-
+		
+		p.Id = id
 		p.Nome = nome
 		p.Descricao = descricao
 		p.Preco = preco
 		p.Quantidade = quantidade
-		p.Id = id
 
 		produtos = append(produtos, p)
 	}
@@ -83,5 +83,52 @@ func DeleteProduto(idProduto string) error {
 
 	fmt.Printf("✅ Produto %s deletado com sucesso!", idProduto)
 
+	return nil
+}
+
+func BuscarProdutoPorId(idProduto string) (*Produto, error) {
+
+	db := db.ConectaComBancoDeDados()
+
+	var nome, descricao string
+	var quantidade, id int
+	var preco float64
+
+	err := db.QueryRow("SELECT * FROM produtos where idprodutos=?", idProduto).Scan(&id, &nome, &descricao, &preco, &quantidade)
+	if err != nil {
+		return nil, err
+	}
+
+	p := &Produto{id, nome, descricao, preco,  quantidade}
+
+	defer db.Close()
+
+	fmt.Printf("✅ Produto %s consultado com sucesso!", idProduto)
+
+	return p, nil
+}
+
+func AtualizarProduto(id, quantidade int, nome, descricao string, preco float64) error {
+	
+	fmt.Printf("✅ Atualizando o Produto %s...", nome)
+
+	db := db.ConectaComBancoDeDados()
+
+	query, err := db.Prepare("UPDATE produtos SET nome=?, descricao=?, preco=?, quantidade=? WHERE idprodutos=?")
+
+	if err != nil {
+		defer db.Close()
+		return err
+	}
+
+	_, err = query.Exec(nome, descricao, preco, quantidade, id)
+
+	if err != nil {
+		defer db.Close()
+		return err
+	}
+
+	defer db.Close()
+	fmt.Printf("✅ Produto %s atualizado com sucesso!", nome)
 	return nil
 }
