@@ -14,13 +14,13 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Home Page")
 }
 
-func TodasAsPersonalidades(w http.ResponseWriter, r *http.Request) {
+func BuscarTodasAsPersonalidades(w http.ResponseWriter, r *http.Request) {
 	var p []models.Personalidade
 	database.DB.Find(&p)
 	json.NewEncoder(w).Encode(p)
 }
 
-func PersonalidadePorId(w http.ResponseWriter, r *http.Request) {
+func BuscarPersonalidadePorId(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
@@ -33,5 +33,13 @@ func CriarNovaPersonalidade(w http.ResponseWriter, r *http.Request) {
 	var personalidade models.Personalidade
 	json.NewDecoder(r.Body).Decode(&personalidade)
 	database.DB.Create(&personalidade)
+	json.NewEncoder(w).Encode(personalidade)
+}
+
+func DeletarPersonalidade(w http.ResponseWriter, r *http.Request) {
+	entrada := mux.Vars(r)
+	id := entrada["id"]
+	var personalidade models.Personalidade
+	database.DB.Delete(&personalidade, id)
 	json.NewEncoder(w).Encode(personalidade)
 }
