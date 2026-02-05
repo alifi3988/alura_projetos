@@ -1,2 +1,17 @@
 
 buscador/.idea/workspace.xml
+dados/.erlang.cookie
+dados/mnesia/rabbit@5dfcdc8fb510-feature_flags
+dados/mnesia/rabbit@5dfcdc8fb510.pid
+dados/mnesia/rabbit@5dfcdc8fb510/coordination/rabbit@5dfcdc8fb510/0000000000000003.wal
+*.dets
+*.segment
+dados/mnesia/rabbit@5dfcdc8fb510/coordination/rabbit@5dfcdc8fb510/RABBITL44BWI0O3KRB/config
+dados/mnesia/rabbit@5dfcdc8fb510/coordination/rabbit@5dfcdc8fb510/segment_name_upgrade_marker
+dados/mnesia/rabbit@5dfcdc8fb510/msg_stores/vhosts/628WB79CIFDYO9LJI6DKMI09L/.config
+dados/mnesia/rabbit@5dfcdc8fb510/msg_stores/vhosts/628WB79CIFDYO9LJI6DKMI09L/.vhost
+dados/mnesia/rabbit@5dfcdc8fb510/msg_stores/vhosts/628WB79CIFDYO9LJI6DKMI09L/msg_store_persistent/0.rdq
+dados/mnesia/rabbit@5dfcdc8fb510/msg_stores/vhosts/628WB79CIFDYO9LJI6DKMI09L/msg_store_transient/0.rdq
+dados/mnesia/rabbit@5dfcdc8fb510/quorum/rabbit@5dfcdc8fb510/0000000000000003.wal
+dados/mnesia/rabbit@5dfcdc8fb510/quorum/rabbit@5dfcdc8fb510/segment_name_upgrade_marker
+dados/mnesia/rabbit@5dfcdc8fb510/rabbit_serial
